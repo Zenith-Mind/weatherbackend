@@ -2,13 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { from } from 'rxjs';
 import { AdminService } from 'src/admin/admin.service';
 import axios from 'axios';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async getWeather() {
-    const API_KEY = '33711ae1f14490268b375855fc1f5eb9';
+    const API_KEY = this.getApi();
+    //'33711ae1f14490268b375855fc1f5eb9';
+    //this.getApi();
     const allCities = await this.adminService.findAllc();
     const data = [];
     for (const cities of allCities) {
@@ -22,5 +28,8 @@ export class UserService {
       data.push(obj);
     }
     return data;
+  }
+  getApi(): string {
+    return this.configService.get<string>('MY_API');
   }
 }

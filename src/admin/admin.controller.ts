@@ -16,17 +16,37 @@ import { from, Observable } from 'rxjs';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { Request } from 'express';
 import { AdminDto } from './admin.dto';
+import { AddCityResponseDto } from './addcityresponse.dto';
+import { validate } from 'class-validator';
 
 @Controller('admin')
 export class AdminController {
   constructor(private adminService: AdminService) {}
 
   @Post('add-city')
-  add(@Body() body: AdmincDto, @Session() session: any) {
+  add(@Body() body: AdmincDto, @Session() session: any): AddCityResponseDto {
     if (session.userId === undefined) {
-      return new BadRequestException('Admin access needed');
+      throw new BadRequestException('Admin access needed');
     }
-    return this.adminService.addCity(body);
+    const res = this.adminService.addCity(body);
+    const responseDto: AddCityResponseDto = {
+      success: true,
+      message: 'City added successfully',
+      //data: res,
+    };
+
+    return responseDto;
+    // const responseDto = new AddCityResponseDto();
+    // responseDto.success = true;
+    // responseDto.message = 'City added successfully';
+    // responseDto.data = res;
+
+    // const errors = await validate(responseDto);
+    // if (errors.length > 0) {
+    //   throw new BadRequestException(errors);
+    // }
+
+    // return responseDto;
   }
 
   @Get('all-cities')

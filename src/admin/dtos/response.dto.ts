@@ -1,6 +1,6 @@
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
-export class AddCityResponseDto {
+export class ResponseDto {
   @IsBoolean()
   success: boolean;
 

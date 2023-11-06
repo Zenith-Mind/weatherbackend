@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { AdmincEntity } from './adminc.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AdmincDto } from './adminc.dto';
+import { AdmincDto } from './dtos/adminc.dto';
 import { from, Observable } from 'rxjs';
 import { AdminEntity } from './admin.entity';
 import { scrypt as _scrypt, randomBytes } from 'crypto';
